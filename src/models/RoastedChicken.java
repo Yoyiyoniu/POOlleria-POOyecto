@@ -1,30 +1,29 @@
+// src/models/RoastedChicken.java
 package models;
 
-import enums.Accompaniment;
 import enums.ChickenCutType;
 import enums.RostTypes;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RoastedChicken extends _Product implements Serializable {
 
     private RostTypes rostTypes;
     private ChickenCutType cutType;
-    private List<Accompaniment> accompaniment = new ArrayList<>();
+    private Acompaniment accompaniment;
 
     public RoastedChicken(
-            RostTypes rostTypes, ChickenCutType chickenCutType, String id,
-            float price, String description, int amount, Accompaniment acc) {
-        super(id, price, description, amount);
-        accompaniment.add(acc);
+            RostTypes rostTypes, ChickenCutType chickenCutType, String description, int amount, Acompaniment acc) {
+        super(description, amount);
+
+        this.accompaniment = acc;
         this.rostTypes = rostTypes;
         this.cutType = chickenCutType;
+        this.setPrice(150);
     }
 
-    public void setAccompaniment(Accompaniment acc) {
-        accompaniment.add(acc);
+    public void setAccompaniment(Acompaniment accompaniment) {
+        this.accompaniment = accompaniment;
     }
 
     public void setCutType(ChickenCutType cutType) {
@@ -35,7 +34,7 @@ public class RoastedChicken extends _Product implements Serializable {
         this.rostTypes = rostTypes;
     }
 
-    public List<Accompaniment> getAccompaniment() {
+    public Acompaniment getAccompaniment() {
         return accompaniment;
     }
 
@@ -45,5 +44,13 @@ public class RoastedChicken extends _Product implements Serializable {
 
     public RostTypes getRostTypes() {
         return rostTypes;
+    }
+
+    @Override
+    public String toString(){
+        return this.rostTypes + " | "+ this.cutType + " | " +
+                this.accompaniment + " | " + this.id + " | " +
+                this.price + this.description + " | " +
+                this.amount + " | " +  this.accompaniment;
     }
 }

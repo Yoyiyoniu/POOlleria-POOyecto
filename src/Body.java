@@ -1,24 +1,28 @@
+// src/Body.java
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 class Body extends JPanel {
 
-    Object[][] data = {
-            {"Kathy", "Smith", "Snowboarding", 5},
-            {"John", "Doe", "Rowing", 3},
-            {"Sue", "Black", "Knitting", 2},
-            {"Jane", "White", "Speed reading", 20},
-            {"Joe", "Brown", "Pool", 10}
-    };
+    Object[][] data = {};
 
     String[] columnNames = {
-            "Nombre del cliente",
-            "Producto comprado",
-            "ID de producto",
+            "Tipo de Pollo",
+            "Tipo de Corte",
+            "Acompañamiento",
+            "ID de Venta",
+            "Precio",
+            "Descripción",
+            "Cantidad",
             "Total de compra"
     };
 
-    // TODO: READ TEXT FILE THEN SET THE INFORMATION TO MATRIX THEN SET ALL INFORMATON IN THEE TABLE
+    JTable table;
 
     public Body() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -28,13 +32,59 @@ class Body extends JPanel {
         label.setFont(f);
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JTable table = new JTable(data, columnNames);
+        table = new JTable(data, columnNames);
         JScrollPane scrollPane = new JScrollPane(table);
-
-        scrollPane.setPreferredSize(new Dimension(400, 200));
+        scrollPane.setPreferredSize(new Dimension(600, 200));
 
         add(label);
         add(Box.createRigidArea(new Dimension(0, 10)));
         add(scrollPane);
+
+        actualizarDatos();
+    }
+
+    public void actualizarDatos() {
+        data = cargarDatosDeVentas();
+        table.setModel(new javax.swing.table.DefaultTableModel(data, columnNames));
+    }
+
+    private Object[][] cargarDatosDeVentas() {
+        List<Object[]> ventas = new ArrayList<>();
+        String archivo = "ventas.txt";
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+            String line;
+            int lineaNumero = 0;
+            while ((line = br.readLine()) != null) {
+                lineaNumero++;
+                String[] fields = line.split("\\|"); // Usar solo "|" como delimitador
+                if (fields.length == 8) {
+                    try {
+                        Object[] venta = new Object[8];
+                        venta[0] = fields[0].trim(); // Tipo de Pollo
+                        venta[1] = fields[1].trim(); // Tipo de Corte
+                        venta[2] = fields[2].trim(); // Acompañamiento
+                        venta[3] = fields[3].trim(); // ID de Venta
+                        venta[4] = Double.parseDouble(fields[4].trim()); // Precio
+                        venta[5] = fields[5].trim(); // Descripción
+                        venta[6] = Integer.parseInt(fields[6].trim()); // Cantidad
+                        venta[7] = Double.parseDouble(fields[7].trim()); // Total de compra
+                        ventas.add(venta);
+                    } catch (NumberFormatException e) {
+                        System.err.println("Error de formato en la línea " + lineaNumero + ": " + e.getMessage());
+                    }
+                } else {
+                    System.err.println("Cantidad incorrecta de campos en la línea " + lineaNumero);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo " + archivo + ": " + e.getMessage());
+        }
+
+        if (ventas.isEmpty()) {
+            System.err.println("No se cargaron datos de ventas. Verifique el archivo " + archivo);
+        }
+
+        return ventas.toArray(new Object[0][]);
     }
 }

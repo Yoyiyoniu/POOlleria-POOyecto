@@ -1,6 +1,6 @@
 package enums;
 
-public enum Accompaniment {
+public enum AccompanimentType {
     SALAD("Ensalada de coll"),
     MACARRONI("Macarrones"),
     POTATO("Puere de papa"),
@@ -9,7 +9,7 @@ public enum Accompaniment {
 
     private final String stringValue;
 
-    Accompaniment(String stringValue) {
+    AccompanimentType(String stringValue) {
         this.stringValue = stringValue;
     }
 

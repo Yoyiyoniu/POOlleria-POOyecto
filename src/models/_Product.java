@@ -1,14 +1,15 @@
 package models;
 
-public class _Product {
-    private String id;
-    private float price;
-    private String description;
-    private int amount;
+import utils.RandomString;
 
-    public _Product(String id, float price, String description, int amount) {
-        this.id = id;
-        this.price = price;
+public class _Product {
+    protected String id;
+    protected float price = 0;
+    protected String description;
+    protected int amount;
+
+    public _Product(String description, int amount) {
+        this.id = RandomString.getRandomString();
         this.description = description;
         this.amount = amount;
 
