@@ -87,10 +87,13 @@ public class Nav extends JPanel implements ActionListener {
             ChickenCutType cut = (ChickenCutType) cutType.getSelectedItem();
             AccompanimentType accompaniment = (AccompanimentType) accompanimentType.getSelectedItem();
 
-            RoastedChicken roastedChicken = new RoastedChicken(rostTypes, cut, price, desc, accompaniment);
-            System.out.println(roastedChicken);
+            if (price < 0 || desc.isEmpty() || rostTypes == null || cut == null || accompaniment == null) {
+                JOptionPane.showMessageDialog(this, "Por favor, llene todos los campos.");
+                return;
+            }
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(VENTAS_FILE, true))) {
+                RoastedChicken roastedChicken = new RoastedChicken(rostTypes, cut, price, desc, accompaniment);
                 writer.write(roastedChicken.toString());
                 writer.newLine();
                 JOptionPane.showMessageDialog(this, "Venta guardada exitosamente.");

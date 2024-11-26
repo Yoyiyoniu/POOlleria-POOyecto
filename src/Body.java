@@ -38,7 +38,6 @@ class Body extends JPanel {
         add(Box.createRigidArea(new Dimension(0, 10)));
         add(scrollPane);
 
-        // Add context menu for deleting a sale
         JPopupMenu popupMenu = new JPopupMenu();
         JMenuItem deleteItem = new JMenuItem("Eliminar pedido");
         popupMenu.add(deleteItem);
@@ -96,15 +95,16 @@ class Body extends JPanel {
                 if (fields.length == 6) {
                     try {
                         Object[] venta = new Object[7];
+                        double precioPollo = Double.parseDouble(fields[4].trim()); // Precio del Pollo
+                        double precioAcompanamiento = 50.0;
+
                         venta[0] = fields[0].trim(); // ID de Venta
                         venta[1] = fields[1].trim(); // Tipo de Pollo
                         venta[2] = fields[2].trim(); // Tipo de Corte
                         venta[3] = fields[3].trim(); // Acompañamiento
                         venta[4] = fields[5].trim(); // Descripción
-                        double precioPollo = Double.parseDouble(fields[4].trim()); // Precio del Pollo
-                        double precioAcompanamiento = 50.0; // Precio del Acompañamiento (puedes ajustar este valor según sea necesario)
                         venta[5] = precioPollo; // Precio del pollo
-                        venta[6] = precioPollo + precioAcompanamiento; // Precio Total de compra (pollo + acompañamiento)
+                        venta[6] = precioPollo + precioAcompanamiento;
 
                         ventas.add(venta);
                     } catch (IllegalArgumentException e) {
