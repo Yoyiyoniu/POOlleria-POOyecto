@@ -1,3 +1,4 @@
+// src/Main.java
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -12,8 +13,9 @@ public class Main extends JFrame {
 
             frame.setLayout(new BorderLayout());
 
-            frame.add(new Nav(), BorderLayout.NORTH);
-            frame.add(new Body(), BorderLayout.CENTER);
+            Body body = new Body();
+            frame.add(new Nav(body), BorderLayout.NORTH);
+            frame.add(body, BorderLayout.CENTER);
 
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
