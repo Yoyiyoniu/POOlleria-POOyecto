@@ -1,54 +1,49 @@
-// src/models/RoastedChicken.java
 package models;
 
-import enums.AccompanimentType;
+import enums.Accompaniment;
 import enums.ChickenCutType;
 import enums.RostTypes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RoastedChicken extends _Product implements Serializable {
 
     private RostTypes rostTypes;
     private ChickenCutType cutType;
-    private final AccompanimentType accompaniment;
-    private String description;
+    private List<Accompaniment> accompaniment = new ArrayList<>();
 
     public RoastedChicken(
-            RostTypes rostTypes, ChickenCutType chickenCutType, String description,int price , AccompanimentType acc) {
-        this.description = description;
-        this.accompaniment = acc;
+            RostTypes rostTypes, ChickenCutType chickenCutType, String id,
+            float price, String description, int amount, Accompaniment acc) {
+        super(id, price, description, amount);
+        accompaniment.add(acc);
         this.rostTypes = rostTypes;
         this.cutType = chickenCutType;
-        this.price = price;
+    }
+
+    public void setAccompaniment(Accompaniment acc) {
+        accompaniment.add(acc);
     }
 
     public void setCutType(ChickenCutType cutType) {
         this.cutType = cutType;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public void setRostTypes(RostTypes rostTypes) {
         this.rostTypes = rostTypes;
+    }
+
+    public List<Accompaniment> getAccompaniment() {
+        return accompaniment;
     }
 
     public ChickenCutType getCutType() {
         return cutType;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public RostTypes getRostTypes() {
         return rostTypes;
-    }
-
-    @Override
-    public String toString(){
-        return id + "~" + rostTypes + "~" + cutType + "~" + accompaniment + "~" + price + "~" + description;
     }
 }
